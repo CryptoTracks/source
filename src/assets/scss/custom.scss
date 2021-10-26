@@ -1,0 +1,65 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+
+$body-bg: gray($key: "800");
+$body-color: gray($key: "100");
+$dropdown-bg: $body-bg;
+$card-bg: gray($key: "700");
+$modal-content-bg: $card-bg;
+$list-group-bg: $card-bg;
+$list-group-border-color: $body-color;
+$theme-colors: (
+  "primary": $cyan
+);
+$link-color: $cyan;
+$link-hover-color: lighten($cyan, 20%);
+
+$notes: (
+  "C": $blue,
+  "CS": $indigo,
+  "D": $purple,
+  "DS": $pink,
+  "E": $red,
+  "F": $orange,
+  "FS": $yellow,
+  "G": $green,
+  "GS": $teal,
+  "A": $cyan,
+  "AS": #a4ff00,
+  "B": #ffb800
+);
+
+$octaves: (
+  "1": 5%,
+  "2": 10%,
+  "3": 15%,
+  "4": 20%,
+  "5": 25%,
+  "6": 30%,
+  "7": 35%,
+  "8": 40%
+);
+
+@each $note, $note-code in $notes {
+  @each $octave, $octave-code in $octaves {
+    .bg-#{$note}-#{$octave} {
+      background-color: lighten($note-code, $octave-code);
+    }
+  }
+}
+
+
+
+@import "~bootstrap/scss/bootstrap";
+
+$grid-gutter-width: 4px;
+.tune-row {
+  @include make-row();
+  height: 20px;
+
+  .tune-col {
+    @include make-col-ready();
+    @include make-col(1, 16);
+  }
+}
