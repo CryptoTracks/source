@@ -21,7 +21,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-outline-primary" @click.prevent="favorite()">Save</button>
+          <button type="button" class="btn btn-outline-primary" @click.prevent="favorite()" :disabled="favoriting">Save <font-awesome-icon :icon="fa.spinner()" :spin="true" v-show="favoriting"></font-awesome-icon></button>
         </div>
       </div>
     </div>
@@ -30,6 +30,7 @@
 
 <script>
 import EventBus from '@/helpers/EventBus'
+import FaHelper from '@/helpers/FaHelper'
 import $ from 'jquery'
 
 export default {
@@ -38,7 +39,8 @@ export default {
     return {
       favoriteFee: 0.01,
       tuneId: null,
-      artist: null
+      artist: null,
+      favoriting: false
     }
   },
   mounted () {
@@ -51,20 +53,26 @@ export default {
   computed: {
     account () {
       return this.$parent.account
+    },
+    fa () {
+      return FaHelper
     }
   },
   methods: {
     favorite () {
       const vm = this
+      vm.favoriting = true
       this.$parent.ctContract.deployed()
         .then(instance => {
           return instance.favorite(vm.tuneId, {from: vm.account, value: parseInt(vm.favoriteFee * 1000000000000000000)})
         })
         .then(() => {
+          vm.favoriting = false
           $('#favoriteModal').modal('hide')
           EventBus.$emit('favorite', vm.tuneId)
         })
         .catch(err => {
+          vm.favoriting = false
           console.error(err)
         })
     }

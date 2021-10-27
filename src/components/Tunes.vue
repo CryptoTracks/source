@@ -9,7 +9,7 @@
           <mini-tune :tuneId="tuneId"></mini-tune>
         </div>
         <div class="col col-md-4 col-12">
-          <router-link class="btn btn-outline-primary mt-3" to="/tunes/new">New</router-link>
+          <router-link class="btn btn-outline-primary mt-3 mr-3" to="/tunes/new">New</router-link>
           <button class="btn btn-outline-primary mt-3" v-if="anyMore" @click="loadMore()">Load More...</button>
         </div>
       </div>

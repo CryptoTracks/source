@@ -242,7 +242,7 @@
               <label for="donation">CryptoTunes Donation</label>
               <input class ="form-control ml-2" type="number" name="donation" id="donation" v-model="donation" min="0" step="0.001"/>
             </div>
-            <button class="btn btn-outline-primary ml-2" @click="publish()">Publish</button>
+            <button class="btn btn-outline-primary ml-2" @click="publish()" :disabled="publishing">Publish <font-awesome-icon :icon="faHelper.spinner()" v-if="publishing" :spin="true"></font-awesome-icon></button>
             <span class="text-danger" v-if="error">{{ error }}</span>
           </form>
         </div>
@@ -273,7 +273,8 @@ export default {
       playing: false,
       synths: [],
       error: null,
-      donation: 0.01
+      donation: 0.01,
+      publishing: false
     }
   },
   computed: {
@@ -414,6 +415,7 @@ export default {
     },
     publish () {
       const vm = this
+      vm.publishing = true;
       let tlInst
       this.$parent.ctContract.deployed()
         .then((instance) => {
@@ -423,10 +425,12 @@ export default {
         })
         .then(() => {
           // console.info(res)
+          vm.publishing = false;
           vm.error = null
           vm.$router.push('/library')
         })
         .catch((err) => {
+          vm.publishing = false;
           console.error(err)
           // vm.error = err.toString().split('. at')[0].replace('Error: Error: ', '')
         })
