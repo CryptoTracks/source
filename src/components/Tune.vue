@@ -359,8 +359,8 @@ export default {
         track.volume = parseInt((Math.random() * 30) - 15)
         if (i === 4 || i === 5) {
           track.attackNoise = parseInt(Math.random() * 10)
-          track.resonance = parseInt(Math.random() * 10) * 1000
-          track.dampening = Math.random().toFixed(2)
+          track.dampening = parseInt(Math.random() * 10) * 1000
+          track.resonance = Math.random().toFixed(2)
         } else {
           track.attack = Math.random().toFixed(2)
           track.decay = Math.random().toFixed(2)
