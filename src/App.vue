@@ -37,7 +37,7 @@
           <div class="col col-12">
             <span clas="text-muted mr-1">&copy; 2018, 2021 CryptoTracks</span>
             <a href="https://github.com/CryptoTracks" class="ml-1 mr-1" target="_blank"><font-awesome-icon :icon="fa.github()"></font-awesome-icon></a>
-            <a href="https://twitter.com/TunesCrypto" class="mr-1" target="_blank"><font-awesome-icon :icon="fa.twitter()"></font-awesome-icon></a>
+            <a href="https://twitter.com/Crypto__Tracks" class="mr-1" target="_blank"><font-awesome-icon :icon="fa.twitter()"></font-awesome-icon></a>
           </div>
         </div>
       </div>
@@ -64,7 +64,11 @@ export default {
     }
   },
   created () {
-    // this.$ethereum.on('chainChanged', window.location.reload());
+    // remove when mainnet deployed...
+    this.$ethereum.request({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId: '0x3' }],
+    });
     this.$ethereum.on('accountsChanged', this.handleAccountsChanged)
     const vm = this
     this.initAccount()
