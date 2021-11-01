@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h1 class="display-2">Music on the Blockchain</h1>
-    <p class="lead">CryptoTunes allows artists and music enthusiasts to unleash and discover creativity on the Ethereum Blockchain.</p>
+    <p class="lead">CryptoTracks allows artists and music enthusiasts to unleash and discover creativity on the Ethereum Blockchain.</p>
     <hr>
     <div class="row">
       <div class="col col-md-6 col-12">

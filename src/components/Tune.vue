@@ -239,7 +239,7 @@
         <div class="card-footer">
           <form class="form-inline" @submit.prevent>
             <div class="form-group">
-              <label for="donation">CryptoTunes Donation</label>
+              <label for="donation">CryptoTracks Donation</label>
               <input class ="form-control ml-2" type="number" name="donation" id="donation" v-model="donation" min="0" step="0.001"/>
             </div>
             <button class="btn btn-outline-primary ml-2" @click="publish()" :disabled="publishing">Publish <font-awesome-icon :icon="faHelper.spinner()" v-if="publishing" :spin="true"></font-awesome-icon></button>

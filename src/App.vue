@@ -1,7 +1,7 @@
 `<template>
   <div id="app">
     <nav class="navbar navbar-dark navbar-expand-md">
-      <router-link class="navbar-brand" to="/">CryptoTunes <span class="text-danger">(TESTNET)</span></router-link>
+      <router-link class="navbar-brand" to="/">CryptoTracks <span class="text-danger">(TESTNET)</span></router-link>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -26,7 +26,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
           <h4 class="alert-heading">TESTNET Alert!</h4>
-          <p>The CryptoTunes smart contract is deployed to the Ropsten Test Net.  With enough interest, CryptoTunes will go live.  Show your interest by donating Ether to 0xafe1cf2909d34f843b510edb9b8ba8f8f8bce854 or contributing on GitHub: <a href="https://github.com/CryptoTunes/source" target="_blank"><font-awesome-icon :icon="fa.github()"></font-awesome-icon></a></p>
+          <p>The CryptoTracks smart contract is deployed to the Ropsten Test Net.  With enough interest, CryptoTracks will go live.  Show your interest by donating Ether to cryptotracks.eth or contributing on GitHub: <a href="https://github.com/CryptoTracks/source" target="_blank"><font-awesome-icon :icon="fa.github()"></font-awesome-icon></a></p>
         </div>
       </div>
       <router-view :key="$route.name + ($route.params.address || '')"/>
@@ -35,8 +35,8 @@
       <div class="container">
         <div class="row">
           <div class="col col-12">
-            <span clas="text-muted mr-1">&copy; 2018, 2021 CryptoTunes</span>
-            <a href="https://github.com/CryptoTunes" class="ml-1 mr-1" target="_blank"><font-awesome-icon :icon="fa.github()"></font-awesome-icon></a>
+            <span clas="text-muted mr-1">&copy; 2018, 2021 CryptoTracks</span>
+            <a href="https://github.com/CryptoTracks" class="ml-1 mr-1" target="_blank"><font-awesome-icon :icon="fa.github()"></font-awesome-icon></a>
             <a href="https://twitter.com/TunesCrypto" class="mr-1" target="_blank"><font-awesome-icon :icon="fa.twitter()"></font-awesome-icon></a>
           </div>
         </div>
@@ -48,7 +48,7 @@
 
 <script>
 import TruffleContract from 'truffle-contract'
-import CtJSON from '../build/contracts/CryptoTunes.json'
+import CtJSON from '../build/contracts/CryptoTracks.json'
 import FavoriteModal from '@/components/FavoriteModal'
 import EventBus from '@/helpers/EventBus'
 import FaHelper from '@/helpers/FaHelper'
