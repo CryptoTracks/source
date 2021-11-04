@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "test": "truffle test"
+    "test": "which truffle && truffle test"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free-brands": "^5.0.13",
@@ -37,6 +37,7 @@
     "eslint-plugin-vue": "^6.2.2",
     "node-sass": "^6.0.1",
     "sass-loader": "^10",
+    "truffle": "^5.4.17",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
