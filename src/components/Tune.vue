@@ -243,6 +243,7 @@
               <input class ="form-control ml-2" type="number" name="donation" id="donation" v-model="donation" min="0" step="0.001"/>
             </div>
             <button class="btn btn-outline-primary ml-2" @click="publish()" :disabled="publishing">Publish <font-awesome-icon :icon="faHelper.spinner()" v-if="publishing" :spin="true"></font-awesome-icon></button>
+            <button class="btn btn-outline-warning ml-2" @click="preview()">Preview</button>
             <span class="text-danger" v-if="error">{{ error }}</span>
           </form>
         </div>
@@ -338,12 +339,16 @@ export default {
       return TuneHelpers.synths[name]
     },
     play () {
-      this.loop.start()
-      this.playing = true
+      if (!this.playing) {
+        this.loop.start()
+        this.playing = true
+      }
     },
     stop () {
-      this.loop.stop()
-      this.playing = false
+      if (this.playing) {
+        this.loop.stop()
+        this.playing = false
+      }
     },
     noteClass (bar, barIndex) {
       if (!this.playing || (this.playing && this.currentBar === barIndex)) {
@@ -434,6 +439,10 @@ export default {
           console.error(err)
           // vm.error = err.toString().split('. at')[0].replace('Error: Error: ', '')
         })
+    },
+    preview () {
+      this.stop();
+      EventBus.$emit('open-preview', this.tracks);
     }
   },
   destroyed () {
