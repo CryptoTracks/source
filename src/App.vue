@@ -43,6 +43,7 @@
       </div>
     </footer>
     <favorite-modal></favorite-modal>
+    <preview-modal></preview-modal>
   </div>
 </template>
 
@@ -50,12 +51,13 @@
 import TruffleContract from 'truffle-contract'
 import CtJSON from '../build/contracts/CryptoTracks.json'
 import FavoriteModal from '@/components/FavoriteModal'
+import PreviewModal from '@/components/PreviewModal'
 import EventBus from '@/helpers/EventBus'
 import FaHelper from '@/helpers/FaHelper'
 
 export default {
   name: 'App',
-  components: { FavoriteModal },
+  components: { FavoriteModal, PreviewModal },
   data () {
     return {
       account: null,

@@ -1,7 +1,7 @@
 <template>
   <div class="mt-3 mb-3" :class="{card: !onlyGrid}">
     <div class="card-header text-light" v-if="!onlyGrid">
-      <h5 class="float-left">Tune #{{ tuneId.toString(10) }}</h5>
+      <h5 class="float-left" v-if="tuneId">Tune #{{ tuneId.toString(10) }}</h5>
       <template v-if="!$parent.address">
         <span class="float-right text-muted" v-if="isNotMe">by
           <router-link :to="'/tunes?address=' + artist">{{ artist.toString().substring(0,8) }}...</router-link>
@@ -21,7 +21,7 @@
       </div>
     </div>
     <div class="card-footer" v-if="!onlyGrid">
-      <button class="btn btn-sm float-right" :class="favoriteCSS" :title="isNotMe ? 'Save to Favorites' : 'Favorites'" @click="favorite()" :disabled="!isNotMe || myFavorites.indexOf(tuneId.toString()) > -1" v-if="account"><font-awesome-icon :icon="fa.star()"></font-awesome-icon> {{ favCount > 0 ? favCount.toString() : '' }}</button>
+      <button class="btn btn-sm float-right" :class="favoriteCSS" :title="isNotMe ? 'Save to Favorites' : 'Favorites'" @click="favorite()" :disabled="!isNotMe || myFavorites.indexOf(tuneId.toString()) > -1" v-if="account && !tracksPreview"><font-awesome-icon :icon="fa.star()"></font-awesome-icon> {{ favCount > 0 ? favCount.toString() : '' }}</button>
       <button class="btn btn-sm btn-outline-danger float-left" v-if="playing" @click="stop()"><font-awesome-icon :icon="fa.stop()"></font-awesome-icon></button>
       <button class="btn btn-sm btn-outline-primary float-left" v-else @click="play()"><font-awesome-icon :icon="fa.play()"></font-awesome-icon></button>
     </div>
@@ -50,7 +50,8 @@ export default {
   props: {
     tuneId: [Object, Number, String],
     onlyGrid: Boolean,
-    start: Boolean
+    start: Boolean,
+    tracksPreview: Array
   },
   computed: {
     fa () {
@@ -69,7 +70,7 @@ export default {
       return this.$parent.$parent.myFavorites
     },
     favoriteCSS () {
-      if (this.isNotMe) {
+      if (this.isNotMe && this.myFavorites) {
         if (this.myFavorites.indexOf(this.tuneId.toString()) > -1) {
           return 'btn-primary'
         } else {
@@ -119,7 +120,10 @@ export default {
     },
     getTune () {
       const vm = this
-      if (this.$ethereum && this.account) {
+      if (this.tracksPreview) {
+        this.tracks = this.tracksPreview
+        this.artist = this.account
+      } else if (this.$ethereum && this.account) {
         this.$parent.$parent.ctContract.deployed()
           .then(instance => {
             return instance.getTune(vm.tuneId)
@@ -137,7 +141,7 @@ export default {
           })
       } else if (this.tuneId.toString() === '0') {
         vm.tracks = Genesis
-        vm.artist = '0xff5d410359a7d65d8fc8f32b1b762822dd07365c'
+        vm.artist = '0xbcAeBD753AaE5905088E78b67031D7Da96Fc9433'
       }
     },
     favorite () {
