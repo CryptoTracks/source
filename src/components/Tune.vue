@@ -289,17 +289,8 @@ export default {
       return this.$parent.account
     }
   },
-  watch: {
-    account: () => {
-      EventBus.$emit('account-changed')
-    }
-  },
   mounted () {
-    EventBus.$on('account-changed', () => {
-      this.$nextTick(() => {
-        this.startTone()
-      })
-    })
+    EventBus.$on('account-changed', this.handleAccountChange)
     this.startTone()
   },
   methods: {
@@ -451,7 +442,15 @@ export default {
       this.loop = TuneHelpers.sequence(this)
       Tone.Transport.start('+0.5')
       Tone.Transport.bpm.value = 90
+    },
+    handleAccountChange () {
+      this.$nextTick(() => {
+        this.startTone()
+      })
     }
+  },
+  beforeDestroy () {
+    EventBus.$off('account-changed', this.handleAccountChange)
   },
   destroyed () {
     Tone.Transport.stop()

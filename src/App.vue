@@ -4,11 +4,11 @@
       <router-link class="navbar-brand" to="/">CryptoTracks</router-link>
       <span v-if="account" :class="{ 'text-success': network === 1, 'text-warning': network === 3, 'text-secondary': network !== 1 && network !== 3 }">
         <font-awesome-icon :icon="fa.dotCircle()" size="xs" :pulse="true"></font-awesome-icon>
-        {{ connectedText }}
+        <small class="ml-1">{{ connectedText }}</small>
       </span>
       <a v-else href="#!" @click.prevent="initAccount()">
         <font-awesome-icon :icon="fa.dotCircle()" size="xs" :pulse="true"></font-awesome-icon>
-        {{ connectedText }}
+        <small class="ml-1">{{ connectedText }}</small>
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>

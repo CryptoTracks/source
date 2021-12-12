@@ -41,12 +41,12 @@ export default {
     }
     Tone.Transport.start('+0.1')
     Tone.Transport.bpm.value = 90
-    EventBus.$on('account-changed', () => {
-      this.initTunes()
-    })
-    EventBus.$on('network-changed', () => {
-      this.initTunes()
-    })
+    EventBus.$on('account-changed', this.initTunes)
+    EventBus.$on('network-changed', this.initTunes)
+  },
+  beforeDestroy () {
+    EventBus.$off('account-changed', this.initTunes)
+    EventBus.$off('network-changed', this.initTunes)
   },
   destroyed () {
     Tone.Transport.stop()
