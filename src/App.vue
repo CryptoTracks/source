@@ -1,12 +1,20 @@
 `<template>
   <div id="app">
     <nav class="navbar navbar-dark navbar-expand-md">
-      <router-link class="navbar-brand" to="/">CryptoTracks <span class="text-danger">(TESTNET)</span></router-link>
+      <router-link class="navbar-brand" to="/">CryptoTracks</router-link>
+      <span v-if="account" :class="{ 'text-success': network === 1, 'text-warning': network === 3, 'text-secondary': network !== 1 && network !== 3 }">
+        <font-awesome-icon :icon="fa.dotCircle()" size="xs" :pulse="true"></font-awesome-icon>
+        {{ connectedText }}
+      </span>
+      <a v-else href="#!" @click.prevent="initAccount()">
+        <font-awesome-icon :icon="fa.dotCircle()" size="xs" :pulse="true"></font-awesome-icon>
+        {{ connectedText }}
+      </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav ml-auto">
           <li class="nav-item">
             <router-link class="nav-link" to="/library">My Library</router-link>
           </li>
@@ -20,7 +28,7 @@
       </div>
     </nav>
     <main role="main">
-      <div class="container">
+      <!-- <div class="container">
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -28,7 +36,7 @@
           <h4 class="alert-heading">TESTNET Alert!</h4>
           <p>The CryptoTracks smart contract is deployed to the Ropsten Test Net.  With enough interest, CryptoTracks will go live.  Show your interest by donating Ether to cryptotracks.eth or contributing on GitHub: <a href="https://github.com/CryptoTracks/source" target="_blank"><font-awesome-icon :icon="fa.github()"></font-awesome-icon></a></p>
         </div>
-      </div>
+      </div> -->
       <router-view :key="$route.name + ($route.params.address || '')"/>
     </main>
     <footer class="footer">
@@ -61,29 +69,30 @@ export default {
   data () {
     return {
       account: null,
+      network: null,
       ctContract: null,
       myFavorites: []
     }
   },
   created () {
-    // remove when mainnet deployed...
-    this.$ethereum.request({
-      method: 'wallet_switchEthereumChain',
-      params: [{ chainId: '0x3' }],
-    });
     this.$ethereum.on('accountsChanged', this.handleAccountsChanged)
+    this.network = parseInt(this.$ethereum.chainId.replace('0x', ''))
+    this.$ethereum.on('networkChanged', (network) => this.network = parseInt(network))
     const vm = this
-    this.initAccount()
     this.initContract()
-    this.getMyFavorites()
-    setInterval(() => {
-      this.initAccount()
-    }, 2000)
 
     EventBus.$on('favorite', tuneId => {
       this.myFavorites.push(tuneId)
     })
+    EventBus.$on('connect', () => {
+      this.initAccount();
+    })
     EventBus.$on('account-changed', () => {
+      if (this.$ethereum) {
+        vm.getMyFavorites()
+      }
+    })
+    EventBus.$on('network-changed', () => {
       if (this.$ethereum) {
         vm.getMyFavorites()
       }
@@ -92,11 +101,35 @@ export default {
   watch: {
     'account': () => {
       EventBus.$emit('account-changed')
+    },
+    'network': () => {
+      EventBus.$emit('network-changed')
     }
   },
   computed: {
     fa () {
       return FaHelper
+    },
+    connectedText () {
+      if (this.account) {
+        if (this.networkName) {
+          return `Connected (${this.networkName}@${this.account.substring(0,8)}...)`
+        } else {
+          return 'Unsupported Network'
+        }
+      } else {
+        return 'Not Connected'
+      }
+    },
+    networkName () {
+      switch (this.network) {
+        case 1:
+          return 'mainnet'
+        case 3:
+          return 'ropsten'
+        default:
+          return null
+      }
     }
   },
   methods: {

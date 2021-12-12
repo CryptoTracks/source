@@ -141,7 +141,7 @@ export default {
           })
       } else if (this.tuneId.toString() === '0') {
         vm.tracks = Genesis
-        vm.artist = '0xbcAeBD753AaE5905088E78b67031D7Da96Fc9433'
+        vm.artist = '0x39AEd335D6Bb9c16f3138eF25DEE95a9deF231b3'
       }
     },
     favorite () {

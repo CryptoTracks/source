@@ -24,15 +24,14 @@ contract CryptoTracks is Ownable, ReentrancyGuard {
   Tune[] tunes;
 
   constructor() {
-    uint _t1 = uint(keccak256("Genesis Tune Track 1"));
-    uint _t2 = uint(keccak256("Genesis Tune Track 2"));
-    uint _t3 = uint(keccak256("Genesis Tune Track 3"));
-    uint _t4 = uint(keccak256("Genesis Tune Track 4"));
-    uint _t5 = uint(keccak256("Genesis Tune Track 5"));
-    uint _t6 = uint(keccak256("Genesis Tune Track 6"));
-    uint _t7 = uint(keccak256("Genesis Tune Track 7"));
-    uint _t8 = uint(keccak256("Genesis Tune Track 8"));
-
+    uint _t1 = 1510101010000000005005005005000000000000165165165165000000;
+    uint _t2 = 1510101010000020000000000000020000000180000000000000180000;
+    uint _t3 = 1510101010000004000124000124004000000164000084000084164000;
+    uint _t4 = 2101101010000009000000000000009000000169000000000000169000;
+    uint _t5 = 15059004000000010000330330330010000000170000410410410170000;
+    uint _t6 = 15059004000000020000000000000020000000180000000000000180000;
+    uint _t7 = 1510101010000019000000019019000000000179000000179179000000;
+    uint _t8 = 1510101010000019000000019000000000000179000000179000000000;
     tunes.push(Tune(_t1, _t2, _t3, _t4, _t5, _t6, _t7, _t8));
     uint tuneId = tunes.length - 1;
     tuneOwner[tuneId] = _msgSender();

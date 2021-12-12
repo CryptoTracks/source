@@ -22,9 +22,11 @@ const HDWalletProvider = require('@truffle/hdwallet-provider');
 
 const fs = require('fs');
 let mnemonic = '';
+let ropstenMnemonic = '';
 
 try {
   mnemonic = fs.readFileSync(".secret").toString().trim();
+  ropstenMnemonic = fs.readFileSync(".secret.ropsten").toString().trim();
 } catch(e) {
   console.info('mnemonic not defined...');
 }
@@ -39,6 +41,10 @@ module.exports = {
    *
    * $ truffle test --network <network-name>
    */
+  plugins: ['truffle-plugin-verify'],
+  api_keys: {
+    etherscan: process.env.ETHERSCAN_API_KEY
+  },
 
   networks: {
     // Useful for testing. The `development` name is special - truffle uses it by default
@@ -64,7 +70,7 @@ module.exports = {
     // Useful for deploying to a public network.
     // NB: It's important to wrap the provider as a function.
     ropsten: {
-      provider: () => new HDWalletProvider(mnemonic, `wss://ropsten.infura.io/ws/v3/${process.env.INFURA_PROJECT_ID}`),
+      provider: () => new HDWalletProvider(ropstenMnemonic, `wss://ropsten.infura.io/ws/v3/${process.env.INFURA_PROJECT_ID}`),
       network_id: 3,       // Ropsten's id
       gas: 5500000,        // Ropsten has a lower block limit than mainnet
       confirmations: 2,    // # of confs to wait between deployments. (default: 0)
@@ -74,9 +80,10 @@ module.exports = {
     mainnet: {
       provider: () => new HDWalletProvider(mnemonic, `wss://mainnet.infura.io/ws/v3/${process.env.INFURA_PROJECT_ID}`),
       network_id: 1,       // Ropsten's id
-      gasPrice: 170000000000,  // 20 gwei (in wei) (default: 100 gwei)
+      // gasPrice: 50000000000,  // 20 gwei (in wei) (default: 100 gwei)
       confirmations: 2,    // # of confs to wait between deployments. (default: 0)
-      timeoutBlocks: 200  // # of blocks before a deployment times out  (minimum/default: 50)
+      timeoutBlocks: 200,  // # of blocks before a deployment times out  (minimum/default: 50)
+      from: '0x39AEd335D6Bb9c16f3138eF25DEE95a9deF231b3'
     },
     // Useful for private networks
     // private: {
@@ -96,13 +103,13 @@ module.exports = {
     solc: {
       version: "0.8.9",    // Fetch exact version from solc-bin (default: truffle's version)
       // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
-      // settings: {          // See the solidity docs for advice about optimization and evmVersion
-      //  optimizer: {
-      //    enabled: false,
-      //    runs: 200
-      //  },
-      //  evmVersion: "byzantium"
-      // }
+      settings: {          // See the solidity docs for advice about optimization and evmVersion
+       optimizer: {
+         enabled: false,
+         runs: 200
+       },
+       evmVersion: "byzantium"
+      }
     }
   },
 

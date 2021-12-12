@@ -1,5 +1,5 @@
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faPlay, faStop, faStar, faLifeRing, faLink, faSpinner } from '@fortawesome/fontawesome-free-solid'
+import { faPlay, faStop, faStar, faLifeRing, faLink, faSpinner, faDotCircle } from '@fortawesome/fontawesome-free-solid'
 import { faGithub, faTwitter } from '@fortawesome/fontawesome-free-brands'
 library.add(faPlay)
 library.add(faStop)
@@ -34,5 +34,8 @@ export default {
   },
   twitter () {
     return faTwitter
+  },
+  dotCircle () {
+    return faDotCircle
   }
 }
