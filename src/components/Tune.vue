@@ -295,10 +295,12 @@ export default {
     }
   },
   mounted () {
-    this.initSynths()
-    this.loop = TuneHelpers.sequence(this)
-    Tone.Transport.start('+0.5')
-    Tone.Transport.bpm.value = 90
+    EventBus.$on('account-changed', () => {
+      this.$nextTick(() => {
+        this.startTone()
+      })
+    })
+    this.startTone()
   },
   methods: {
     initSynths () {
@@ -443,6 +445,12 @@ export default {
     preview () {
       this.stop();
       EventBus.$emit('open-preview', this.tracks);
+    },
+    startTone () {
+      this.initSynths()
+      this.loop = TuneHelpers.sequence(this)
+      Tone.Transport.start('+0.5')
+      Tone.Transport.bpm.value = 90
     }
   },
   destroyed () {

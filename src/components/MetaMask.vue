@@ -1,17 +1,19 @@
 <template>
   <div class="row">
     <div class="col col-12 text-center">
-      <h1>Install MetaMask</h1>
+      <h1>Connect MetaMask</h1>
       <div class="row">
         <div class="col col-12" id="viewer"></div>
       </div>
       <p>MetaMask may be locked, unsupported, or not installed - <a href="https://metamask.io" target="_blank">MetaMask</a></p>
+      <button type="button" class="btn btn-outline-primary" @click.prevent="connect()">Connect</button>
     </div>
   </div>
 </template>
 
 <script>
 import ModelViewer from 'metamask-logo'
+import EventBus from '@/helpers/EventBus'
 export default {
   name: 'MetaMask',
   data () {
@@ -32,6 +34,11 @@ export default {
   },
   destroyed () {
     this.viewer.stopAnimation()
+  },
+  methods: {
+    connect () {
+      EventBus.$emit('connect');
+    }
   }
 }
 </script>

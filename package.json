@@ -38,6 +38,7 @@
     "node-sass": "^6.0.1",
     "sass-loader": "^10",
     "truffle": "^5.4.17",
+    "truffle-plugin-verify": "^0.4.6",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {

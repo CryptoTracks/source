@@ -44,6 +44,9 @@ export default {
     EventBus.$on('account-changed', () => {
       this.initTunes()
     })
+    EventBus.$on('network-changed', () => {
+      this.initTunes()
+    })
   },
   destroyed () {
     Tone.Transport.stop()
