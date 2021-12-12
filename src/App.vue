@@ -78,7 +78,6 @@ export default {
     this.$ethereum.on('accountsChanged', this.handleAccountsChanged)
     this.network = parseInt(this.$ethereum.chainId.replace('0x', ''))
     this.$ethereum.on('networkChanged', (network) => this.network = parseInt(network))
-    const vm = this
     this.initContract()
 
     EventBus.$on('favorite', tuneId => {
@@ -89,12 +88,13 @@ export default {
     })
     EventBus.$on('account-changed', () => {
       if (this.$ethereum) {
-        vm.getMyFavorites()
+        this.getMyFavorites()
       }
     })
     EventBus.$on('network-changed', () => {
       if (this.$ethereum) {
-        vm.getMyFavorites()
+        this.initContract()
+        this.getMyFavorites()
       }
     })
   },
