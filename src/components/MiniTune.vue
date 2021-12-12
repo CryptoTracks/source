@@ -84,17 +84,8 @@ export default {
   mounted () {
     this.getTune()
     this.loop = TuneHelpers.sequence(this)
-    const vm = this
-    EventBus.$on('played', tuneId => {
-      if (tuneId !== vm.tuneId) {
-        vm.stop()
-      }
-    })
-    EventBus.$on('favorite', tuneId => {
-      if (tuneId === vm.tuneId) {
-        vm.favCount++
-      }
-    })
+    EventBus.$on('played', this.handlePlayed)
+    EventBus.$on('favorite', this.handleFavorite)
   },
   methods: {
     play () {
@@ -147,7 +138,21 @@ export default {
     favorite () {
       const vm = this
       EventBus.$emit('open-favorite', vm.tuneId, vm.artist)
+    },
+    handleFavorite (id) {
+      if (id === this.tuneId) {
+        this.favCount++
+      }
+    },
+    handlePlayed (id) {
+      if (id !== this.tuneId) {
+        this.stop()
+      }
     }
+  },
+  beforeDestroy () {
+    EventBus.$off('played', this.handlePlayed)
+    EventBus.$off('favorite', this.handleFavorite)
   },
   destroyed () {
     this.stop()
