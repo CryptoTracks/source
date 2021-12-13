@@ -1,7 +1,7 @@
 <template>
   <div class="mt-3 mb-3" :class="{card: !onlyGrid}">
     <div class="card-header text-light" v-if="!onlyGrid">
-      <h5 class="float-left" v-if="tuneId">Tune #{{ tuneId.toString(10) }}</h5>
+      <h5 class="float-left">Tune #{{ tuneId }}</h5>
       <template v-if="!$parent.address">
         <span class="float-right text-muted" v-if="isNotMe">by
           <router-link :to="'/tunes?address=' + artist">{{ artist.toString().substring(0,8) }}...</router-link>
@@ -148,6 +148,11 @@ export default {
       if (id !== this.tuneId) {
         this.stop()
       }
+    }
+  },
+  watch: {
+    tracksPreview () {
+      this.getTune()
     }
   },
   beforeDestroy () {
