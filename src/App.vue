@@ -45,7 +45,8 @@
           <div class="col col-12">
             <span clas="text-muted mr-1">&copy; 2018, 2021 CryptoTracks</span>
             <a href="https://github.com/CryptoTracks" class="ml-1 mr-1" target="_blank"><font-awesome-icon :icon="fa.github()"></font-awesome-icon></a>
-            <a href="https://twitter.com/Crypto__Tracks" class="mr-1" target="_blank"><font-awesome-icon :icon="fa.twitter()"></font-awesome-icon></a>
+            <a href="https://twitter.com/Crypto__Tracks" target="_blank"><font-awesome-icon :icon="fa.twitter()"></font-awesome-icon></a>
+            <a href="https://www.dapp.com/app/cryptotracks" target="_blank" title="Listed on dapp.com"><img src="/dapp.com.logo.png" height="50"></a>
           </div>
         </div>
       </div>
@@ -75,10 +76,10 @@ export default {
     }
   },
   created () {
-    this.$ethereum.on('accountsChanged', this.handleAccountsChanged)
-    this.network = parseInt(this.$ethereum.chainId.replace('0x', ''))
-    this.$ethereum.on('networkChanged', (network) => this.network = parseInt(network))
     this.initContract()
+    this.$ethereum.on('accountsChanged', this.handleAccountsChanged)
+    this.network = this.$ethereum && this.$ethereum.chainId ? parseInt(this.$ethereum.chainId.replace('0x', '')) : null;
+    this.$ethereum.on('networkChanged', (network) => this.network = parseInt(network))
 
     EventBus.$on('favorite', tuneId => {
       this.myFavorites.push(tuneId)
