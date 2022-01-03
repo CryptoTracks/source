@@ -16,7 +16,7 @@
               <div class="tune-row">
                 <div class="tune-col h-100 mb-2" v-for="(bar, barIndex) in track.bars" v-bind:key="(index + 1) * barIndex" @click="toggleBar(index, barIndex)">
                   <div class="h-100" :class="noteClass(bar, barIndex, index)" v-if="bar.play"></div>
-                  <div class="bg-secondary h-100" v-else></div>
+                  <div class="bg-secondary h-100 clickable" v-else></div>
                   <form class="dropdown-menu p-4 border-primary" :class="{ 'show': isSelected(index, barIndex) }" @click.stop @submit.prevent>
                     <div class="form-group">
                       <span class="close" @click="selectedBar = null">&times;</span>
@@ -345,9 +345,9 @@ export default {
     },
     noteClass (bar, barIndex) {
       if (!this.playing || (this.playing && this.currentBar === barIndex)) {
-        return `bg-${bar.note.replace('#', 'S')}-${bar.octave} duration-${bar.duration}`
+        return `bg-${bar.note.replace('#', 'S')}-${bar.octave} duration-${bar.duration} clickable`
       } else {
-        return 'bg-dark'
+        return 'bg-dark clickable'
       }
     },
     rando () {
@@ -457,3 +457,13 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  .clickable {
+    cursor: pointer;
+
+    &:hover {
+      border: 1px solid;
+    }
+  }
+</style>
